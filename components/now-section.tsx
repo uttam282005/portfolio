@@ -29,6 +29,20 @@ export function NowSection() {
       startDate: "2025-01-01",
     },
     {
+      type: "skill",
+      title: "Distributed systems",
+      description: "Exploring concurrency and network programming.",
+      progress: 0,
+      startDate: "2025-09-01",
+    },
+    {
+      type: "skill",
+      title: "Computer networks",
+      description: "Exploring network programming and computer networks.",
+      progress: 70,
+      startDate: "2025-08-20",
+    },
+    {
       type: "project",
       title: "Multithreaded proxy web server",
       description: "Implementing a multi threaded proxy web server most probably in C",
@@ -39,7 +53,7 @@ export function NowSection() {
       type: "goal",
       title: "Open Source Contributions",
       description: "Contributing to  meaningful open source projects this quarter.",
-      progress: 3,
+      progress: 30,
       startDate: "2025-07-01",
     },
   ]

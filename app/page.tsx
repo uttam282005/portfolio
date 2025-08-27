@@ -81,6 +81,8 @@ export default function Home() {
     },
   ]
 
+  const featuredProjects = projects.slice(0, 2)
+
   return (
     <div className="min-h-screen bg-background">
       <ScrollProgress />
@@ -175,9 +177,20 @@ export default function Home() {
               <div className="space-y-12">
                 <h2 className="text-2xl font-semibold text-foreground">Featured Projects</h2>
                 <div className="space-y-12">
-                  {projects.map((project) => (
+                  {featuredProjects.map((project) => (
                     <ProjectCard key={project.title} {...project} />
                   ))}
+                </div>
+                <div className="flex justify-center pt-8">
+                  <Link
+                    href="/projects"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-border/30 hover:border-border transition-colors duration-200 group"
+                  >
+                    <span className="text-muted-foreground group-hover:text-foreground transition-colors duration-200 text-sm font-medium">
+                      View All Projects    
+                      →
+                    </span>
+                  </Link>
                 </div>
               </div>
             </section>
