@@ -5,7 +5,7 @@ import "./globals.css"
 export const metadata: Metadata = {
   title: "Uttam Raj - Software Engineer",
   icons: {
-   icon: "/me.png"
+   icon: "/me.ico"
   },
   description: "B.Tech student in Computational Mathematics at NIT Agartala. Passionate about building impactful systems, open source, and AI-driven platforms.",
   keywords: [
