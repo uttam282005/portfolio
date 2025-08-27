@@ -159,7 +159,7 @@ export default function Home() {
                     <span className="text-foreground font-medium">POSIX-compliant Unix shell</span> from scratch and
                     developed several full-stack AI-powered web platforms using React, TypeScript, Python, and Hono. I
                     also enjoy competitive programming and have solved over{" "}
-                    <span className="text-foreground font-medium">700 problems</span>
+                    <span className="text-foreground font-medium">700 problems </span>
                     across platforms like Codeforces, LeetCode, and CodeChef.
                   </p>
                   <p>
