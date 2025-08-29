@@ -3,10 +3,10 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { slug: string[] } }
+  { params }: { params: Promise<{ slug: string[] }> }
 ) {
   try {
-    const { slug } = params
+    const { slug } = await params
     const searchParams = request.nextUrl.searchParams
     
     // Reconstruct the GitHub API URL
