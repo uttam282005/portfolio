@@ -8,11 +8,10 @@ import { ThemeToggle } from "@/components/theme-toggle"
 import { OpenSourceSection } from "@/components/open-source-section"
 import { SkillsSection } from "@/components/skill-section"
 import { ResumeDownload } from "@/components/resume-download"
-import { GitHubActivity } from "@/components/github-activity"
+// import { GitHubActivity } from "@/components/github-activity"
 import { ScrollProgress } from "@/components/scroll-progress"
 import { StatusIndicator } from "@/components/status-indicator"
 import { SmoothScroll } from "@/components/smooth-scroll"
-import { StaggerChildren } from "@/components/stagger-children"
 import { FadeInSection } from "@/components/fade-in-section"
 import { FloatingNav } from "@/components/floating-nav"
 
@@ -180,16 +179,16 @@ export default function Home() {
             </div>
           </section>
 
-          {/* GitHub Activity */}
-          <section id="github-activity" className="space-y-4">
-            <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-muted px-3 py-1 text-xs text-foreground/80">
-              <span className="block size-1.5 rounded-full bg-blue-600" />
-              GitHub Activity
-            </div>
-            <Card className="p-6 border-border/60">
-              <GitHubActivity />
-            </Card>
-          </section>
+          {/* {/* GitHub Activity */} */}
+          {/* <section id="github-activity" className="space-y-4"> */}
+          {/*   <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-muted px-3 py-1 text-xs text-foreground/80"> */}
+          {/*     <span className="block size-1.5 rounded-full bg-blue-600" /> */}
+          {/*     GitHub Activity */}
+          {/*   </div> */}
+          {/*   <Card className="p-6 border-border/60"> */}
+          {/*     <GitHubActivity /> */}
+          {/*   </Card> */}
+          {/* </section> */}
 
           {/* Open Source */}
           <section id="open-source" className="space-y-4">
