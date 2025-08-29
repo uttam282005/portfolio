@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Github, GitCommit, Star, GitFork } from "lucide-react"
+import { Github, GitCommit, Star, GitFork, RefreshCw } from "lucide-react"
 import Link from "next/link"
 
 interface GitHubEvent {
@@ -26,6 +26,7 @@ export function GitHubActivity() {
   const [stats, setStats] = useState<GitHubStats | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [lastFetch, setLastFetch] = useState<Date | null>(null)
 
   const username = "uttam282005"
 
@@ -34,14 +35,19 @@ export function GitHubActivity() {
   }, [])
 
   const fetchGitHubData = async () => {
+    setLoading(true)
+    setError(null)
+    
     try {
+      // Use your API route to avoid CORS issues
+      const timestamp = new Date().getTime()
       const [eventsRes, userRes] = await Promise.all([
-        fetch(`https://api.github.com/users/${username}/events/public`),
-        fetch(`https://api.github.com/users/${username}`),
+        fetch(`/api/github/users/${username}/events/public?t=${timestamp}`),
+        fetch(`/api/github/users/${username}?t=${timestamp}`),
       ])
 
       if (!eventsRes.ok || !userRes.ok) {
-        throw new Error("GitHub API request failed")
+        throw new Error(`GitHub API request failed: Events ${eventsRes.status}, User ${userRes.status}`)
       }
 
       const eventsData = await eventsRes.json()
@@ -66,8 +72,10 @@ export function GitHubActivity() {
 
       setEvents(formattedEvents)
       setStats(formattedStats)
+      setLastFetch(new Date())
     } catch (err) {
-      setError("Failed to fetch GitHub activity")
+      console.error('GitHub API Error:', err)
+      setError(`Failed to fetch GitHub activity: ${err instanceof Error ? err.message : 'Unknown error'}`)
     } finally {
       setLoading(false)
     }
@@ -79,13 +87,19 @@ export function GitHubActivity() {
         const commitCount = event.payload.commits?.length || 1
         return `Pushed ${commitCount} commit${commitCount > 1 ? "s" : ""}`
       case "CreateEvent":
-        return `Created ${event.payload.ref_type} ${event.payload.ref}`
+        return `Created ${event.payload.ref_type} ${event.payload.ref || event.payload.ref_type}`
+      case "DeleteEvent":
+        return `Deleted ${event.payload.ref_type} ${event.payload.ref}`
       case "IssuesEvent":
         return `${event.payload.action} issue: ${event.payload.issue?.title}`
+      case "PullRequestEvent":
+        return `${event.payload.action} pull request: ${event.payload.pull_request?.title}`
       case "WatchEvent":
         return "Starred repository"
       case "ForkEvent":
         return "Forked repository"
+      case "PublicEvent":
+        return "Made repository public"
       default:
         return event.type.replace("Event", "")
     }
@@ -107,11 +121,19 @@ export function GitHubActivity() {
   const formatTimeAgo = (dateString: string) => {
     const date = new Date(dateString)
     const now = new Date()
-    const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60))
-    if (diffInHours < 1) return "Just now"
+    const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60))
+    
+    if (diffInMinutes < 1) return "Just now"
+    if (diffInMinutes < 60) return `${diffInMinutes}m ago`
+    
+    const diffInHours = Math.floor(diffInMinutes / 60)
     if (diffInHours < 24) return `${diffInHours}h ago`
+    
     const diffInDays = Math.floor(diffInHours / 24)
-    return `${diffInDays}d ago`
+    if (diffInDays < 30) return `${diffInDays}d ago`
+    
+    const diffInMonths = Math.floor(diffInDays / 30)
+    return `${diffInMonths}mo ago`
   }
 
   if (loading) {
@@ -120,6 +142,7 @@ export function GitHubActivity() {
         <div className="flex items-center gap-2 mb-4">
           <Github className="w-5 h-5 text-gray-600 dark:text-gray-400" />
           <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">Recent Activity</h3>
+          <RefreshCw className="w-4 h-4 animate-spin text-gray-400" />
         </div>
         <div className="space-y-3">
           {[...Array(4)].map((_, i) => (
@@ -134,7 +157,24 @@ export function GitHubActivity() {
   }
 
   if (error) {
-    return <div className="text-gray-500 dark:text-gray-500 text-sm">Unable to load GitHub activity</div>
+    return (
+      <div className="space-y-4">
+        <div className="flex items-center gap-2 mb-4">
+          <Github className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+          <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">Recent Activity</h3>
+          <button
+            onClick={fetchGitHubData}
+            className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded"
+            title="Retry"
+          >
+            <RefreshCw className="w-4 h-4 text-gray-400" />
+          </button>
+        </div>
+        <div className="text-red-500 dark:text-red-400 text-sm bg-red-50 dark:bg-red-900/20 p-3 rounded-lg">
+          {error}
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -142,6 +182,18 @@ export function GitHubActivity() {
       <div className="flex items-center gap-2 mb-4">
         <Github className="w-5 h-5 text-gray-600 dark:text-gray-400" />
         <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">Recent Activity</h3>
+        <button
+          onClick={fetchGitHubData}
+          className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded"
+          title="Refresh"
+        >
+          <RefreshCw className="w-4 h-4 text-gray-400" />
+        </button>
+        {lastFetch && (
+          <span className="text-xs text-gray-400 ml-auto">
+            Updated {formatTimeAgo(lastFetch.toISOString())}
+          </span>
+        )}
       </div>
 
       {stats && (
@@ -153,25 +205,39 @@ export function GitHubActivity() {
       )}
 
       <div className="space-y-3">
-        {events.slice(0, 4).map((event) => (
-          <div key={event.id} className="flex items-start gap-3 group">
-            <div className="text-gray-500 dark:text-gray-500 mt-0.5">{getEventIcon(event.type)}</div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm text-gray-700 dark:text-gray-300">
-                {formatEventDescription(event)} in{" "}
-                <Link
-                  href={event.repo.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
-                >
-                  {event.repo.name}
-                </Link>
-              </p>
-              <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">{formatTimeAgo(event.created_at)}</p>
-            </div>
+        {events.length === 0 ? (
+          <div className="text-gray-500 dark:text-gray-400 text-sm italic">
+            No recent activity found
           </div>
-        ))}
+        ) : (
+          events.slice(0, 6).map((event) => (
+            <div key={event.id} className="flex items-start gap-3 group">
+              <div className="text-gray-500 dark:text-gray-500 mt-0.5">{getEventIcon(event.type)}</div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm text-gray-700 dark:text-gray-300">
+                  {formatEventDescription(event)} in{" "}
+                  <Link
+                    href={event.repo.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+                  >
+                    {event.repo.name}
+                  </Link>
+                </p>
+                <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+                  {formatTimeAgo(event.created_at)}
+                  {/* Debug: Show exact timestamp in development */}
+                  {process.env.NODE_ENV === 'development' && (
+                    <span className="ml-2 opacity-50">
+                      ({new Date(event.created_at).toLocaleString()})
+                    </span>
+                  )}
+                </p>
+              </div>
+            </div>
+          ))
+        )}
       </div>
 
       <div className="pt-3 border-t border-gray-200 dark:border-gray-800">
@@ -188,4 +254,3 @@ export function GitHubActivity() {
     </div>
   )
 }
-
