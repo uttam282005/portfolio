@@ -112,6 +112,7 @@ export default function Home() {
               I care about reliability, performance, and developer experience. Previously built a POSIX-style shell,
               AI-assisted blogging tools, and platform primitives across the stack.
             </p>
+            <StatusIndicator showUpdated={false} showLocation variant="glass" className="mt-1" />
             <div className="flex items-center gap-4">
               <Link
                 href="#projects"
