@@ -14,6 +14,7 @@ import { StatusIndicator } from "@/components/status-indicator"
 import { SmoothScroll } from "@/components/smooth-scroll"
 import { StaggerChildren } from "@/components/stagger-children"
 import { FadeInSection } from "@/components/fade-in-section"
+import { FloatingNav } from "@/components/floating-nav"
 
 const projects = [
   {
@@ -54,6 +55,7 @@ export default function Home() {
       <main className="min-h-screen bg-background">
         <ScrollProgress />
         <SmoothScroll />
+        <FloatingNav/>
         {/* Top Nav */}
         <div className="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border/50">
           <div className="mx-auto max-w-3xl px-6">
