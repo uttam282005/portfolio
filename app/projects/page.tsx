@@ -17,7 +17,6 @@ export default function ProjectsPage() {
   const [view, setView] = useState<"grid" | "list">("grid")
 
   return (
-    <FadeInSection>
       <div className="min-h-screen bg-background">
         <ScrollProgress />
         <SmoothScroll />
@@ -145,6 +144,5 @@ export default function ProjectsPage() {
           </FadeInSection>
         </div>
       </div>
-    </FadeInSection>
   )
 }
