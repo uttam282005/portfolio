@@ -47,18 +47,18 @@ export function ThemeToggle() {
     )
   }
 
-  return (
-    <button
-      onClick={toggleTheme}
-      className="p-2 sm:p-3 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
-      aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
-      title={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
-    >
-      {theme === "light" ? (
-        <Moon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-400" />
-      ) : (
-        <Sun className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-400" />
-      )}
-    </button>
-  )
+return (
+  <button
+    onClick={toggleTheme}
+    className="p-1 sm:p-2 rounded-md bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+    aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+    title={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+  >
+    {theme === "light" ? (
+      <Moon className="w-3 h-3 sm:w-4 sm:h-4 text-gray-600 dark:text-gray-400" />
+    ) : (
+      <Sun className="w-3 h-3 sm:w-4 sm:h-4 text-gray-600 dark:text-gray-400" />
+    )}
+  </button>
+)
 }

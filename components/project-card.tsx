@@ -1,10 +1,13 @@
 
 "use client"
 
-import { ExternalLink, Github, ImageIcon } from "lucide-react"
 import Link from "next/link"
+import { cn } from "@/lib/utils"
+import { Card } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { ExternalLink, Github, ImageIcon } from "lucide-react"
 
-interface ProjectCardProps {
+type Project = {
   title: string
   year: string
   description: string
@@ -14,97 +17,91 @@ interface ProjectCardProps {
   imageUrl?: string
 }
 
-export function ProjectCard({
-  title,
-  imageUrl,
-  year,
-  description,
-  technologies,
-  projectUrl,
-  githubUrl,
-}: ProjectCardProps) {
-
+export function ProjectCard({ title, year, description, technologies, projectUrl, githubUrl, imageUrl }: Project) {
   return (
-    <div className="group">
-      <div className="flex flex-col lg:flex-row gap-6">
-        {/* Project Image */}
-        <div className="lg:w-1/3">
-          <div className="aspect-[3/2] relative overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800">
-            {projectUrl ? (
-              <img
-                src={imageUrl}
-                alt={`${title} preview`}
-                className="object-cover transition-transform duration-300 group-hover:scale-105 w-full h-full"
-              />
-            ) : (
-              <div className="flex items-center justify-center w-full h-full">
-                <ImageIcon className="w-8 h-8 text-gray-400 dark:text-gray-600" />
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Project Details */}
-        <div className="lg:w-2/3">
-          <div className="flex items-start justify-between mb-3">
-            <h3 className="text-xl font-medium text-gray-900 dark:text-gray-100">
-              {projectUrl ? (
-                <Link
-                  href={projectUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200 flex items-center gap-2"
-                >
-                  {title}
-                  <ExternalLink className="w-4 h-4" />
-                </Link>
-              ) : (
-                <span>{title}</span>
-              )}
-            </h3>
-            <span className="text-sm text-gray-500 dark:text-gray-500 font-mono">{year}</span>
-          </div>
-
-          <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-4">{description}</p>
-
-          <div className="flex flex-wrap gap-2 mb-4">
-            {technologies.map((tech) => (
-              <span
-                key={tech}
-                className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-
-          {/* Project Links */}
-          <div className="flex gap-4">
-            {projectUrl && (
-              <Link
-                href={projectUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200"
-              >
-                <ExternalLink className="w-4 h-4" />
-                Live Demo
-              </Link>
-            )}
-            {githubUrl && (
-              <Link
-                href={githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-colors duration-200"
-              >
-                <Github className="w-4 h-4" />
-                Source Code
-              </Link>
-            )}
-          </div>
+    <Card
+      className={cn(
+        "group relative p-5 md:p-6 border-border/50 transition-all",
+        "hover:shadow-sm hover:-translate-y-0.5 hover:border-border focus-within:ring-1 focus-within:ring-blue-600/20",
+      )}
+    >
+      {/* Optional thumbnail */}
+      <div className="mb-4">
+        <div className="aspect-[3/2] relative overflow-hidden rounded-md bg-muted">
+          {imageUrl ? (
+            <img
+              src={imageUrl || "/placeholder.svg"}
+              alt={`${title} preview`}
+              className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-[1.03]"
+            />
+          ) : (
+            <div className="flex items-center justify-center w-full h-full text-muted-foreground">
+              <ImageIcon className="w-6 h-6" />
+            </div>
+          )}
         </div>
       </div>
-    </div>
+
+      <div className="flex items-start justify-between gap-3">
+        <h3 className="text-base md:text-lg font-semibold text-foreground text-pretty">
+          {projectUrl ? (
+            <Link
+              href={projectUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline underline-offset-4"
+            >
+              {title}
+            </Link>
+          ) : (
+            title
+          )}
+        </h3>
+        <Badge className="bg-blue-600 text-white hover:bg-blue-600/90">{year}</Badge>
+      </div>
+
+      <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{description}</p>
+
+      <div className="mt-4 flex flex-wrap gap-2">
+        {technologies.map((t) => (
+          <span
+            key={t}
+            className="rounded-full border border-border/60 bg-muted px-2.5 py-1 text-xs text-foreground/80"
+          >
+            {t}
+          </span>
+        ))}
+      </div>
+
+      {(projectUrl || githubUrl) && (
+        <div className="mt-5 flex items-center gap-4 text-sm">
+          {projectUrl && (
+            <Link
+              href={projectUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-blue-600 hover:underline underline-offset-4"
+              aria-label={`Open live project ${title}`}
+            >
+              <ExternalLink className="w-4 h-4" />
+              Live
+            </Link>
+          )}
+          {githubUrl && (
+            <Link
+              href={githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
+              aria-label={`Open GitHub repo for ${title}`}
+            >
+              <Github className="w-4 h-4" />
+              GitHub
+            </Link>
+          )}
+        </div>
+      )}
+    </Card>
   )
 }
+

@@ -1,118 +1,150 @@
-import Link from "next/link"
-import { ThemeToggle } from "@/components/theme-toggle"
-import { ScrollProgress } from "@/components/scroll-progress"
-import { FadeInSection } from "@/components/fade-in-section"
-import { SmoothScroll } from "@/components/smooth-scroll"
-import { ProjectCard } from "@/components/project-card"
-import { ArrowLeft } from "lucide-react"
+"use client"
 
-const projects = [
-  {
-    title: "Custom Unix Shell",
-    year: "2025",
-    description:
-      "A custom Unix shell written in C. Features a POSIX-compliant interface and supports features like process management, command execution and file system operations.",
-    technologies: ["C", "POSIX", "Process Management", "Command Execution", "File System Operations"],
-    projectUrl: "https://github.com/uttam282005/shell-from-scratch",
-    githubUrl: "https://github.com/uttam282005/shell-from-scratch",
-    imageUrl: "/github.png",
-    liveDemo: false,
-  },
-  {
-    title: "Gist: AI-Powered Blogging Platform",
-    year: "2024",
-    description:
-      "A full-stack blogging platform featuring AI-assisted content interaction. Integrated LangChain-based summarization and a RAG-powered chatbot to boost engagement and reduce reading time.",
-    technologies: ["React", "TypeScript", "Python", "LangChain", "RAG", "Hono"],
-    projectUrl: "https://gist-3jc.pages.dev",
-    imageUrl: "/gist.png",
-    githubUrl: "https://github.com/uttam282005/gist",
-  },
-  {
-    title: "URL Shortening CLI Tool",
-    year: "2024",
-    description:
-      "A command-line URL shortener built using Express.js and MongoDB. Supports validation via Zod, CLI interaction through Python's argparse, and uses secure env-based config management.",
-    technologies: ["Python", "Express.js", "MongoDB", "Zod"],
-    projectUrl: "https://github.com/uttam282005/url-shortner-cli-tool",
-    githubUrl: "https://github.com/uttam282005/url-shortner-cli-tool",
-    imageUrl: "/github.png",
-  },
-  {
-    title: "MindCare: Mental Health Platform",
-    year: "2024",
-    description:
-      "Mental health platform offering quiz-based assessments, AI-generated feedback, and user progress tracking. Increased average session time with a chat assistant and personalized recommendations.",
-    technologies: ["Next.js", "TypeScript", "Firebase", "React"],
-    projectUrl: "https://github.com/uttam282005/mindU",
-    githubUrl: "https://github.com/uttam282005/mindU",
-    imageUrl: "/mindcare.png",
-  },
-]
+import { useState } from "react"
+import { LayoutGrid, List } from "lucide-react"
+import { AnimatePresence, LayoutGroup, motion } from "framer-motion"
+import { FadeInSection } from "@/components/fade-in-section"
+import { projects } from "@/lib/info"
+import { SmoothScroll } from "@/components/smooth-scroll"
+import { ScrollProgress } from "@/components/scroll-progress"
+import { ProjectCard } from "@/components/project-card" // Named import for ProjectCard
+import Link from "next/link"
+import { ArrowLeft } from "lucide-react"
+import { ThemeToggle } from "@/components/theme-toggle"
+
 
 export default function ProjectsPage() {
-  return (
-    <div className="min-h-screen bg-background">
-      <ScrollProgress />
-      <SmoothScroll />
+  const [view, setView] = useState<"grid" | "list">("grid")
 
-      <div className="max-w-3xl mx-auto px-6 py-16 lg:py-24">
-        <FadeInSection>
-          <header className="mb-24">
-            <div className="flex items-start justify-between mb-12">
-              <div className="space-y-8">
+  return (
+    <FadeInSection>
+      <div className="min-h-screen bg-background">
+        <ScrollProgress />
+        <SmoothScroll />
+        <div className="mx-auto max-w-3xl px-6 py-16 lg:py-24">
+          <main>
+            <FadeInSection>
+              <section className="space-y-8">
+                {/* Header row: title + view toggle */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <Link
+                      href="/"
+                      aria-label="Back to Home"
+                      className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      <ArrowLeft className="h-4 w-4" />
+                      <span className="hidden sm:inline">Home</span>
+                    </Link>
+                  </div>
+
+                  <div className="inline-flex items-center gap-3">
+                    <ThemeToggle />
+
+                    <div className="inline-flex items-center gap-1 rounded-md border border-border/50 p-1">
+                      <button
+                        type="button"
+                        aria-label="Grid view"
+                        aria-pressed={view === "grid"}
+                        onClick={() => setView("grid")}
+                        className={`inline-flex items-center gap-2 rounded px-3 py-1.5 text-sm transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${view === "grid"
+                          ? "bg-primary/15 text-foreground shadow-sm ring-1 ring-primary/25"
+                          : "text-muted-foreground hover:text-foreground"
+                          }`}
+                      >
+                        <LayoutGrid className="h-4 w-4" />
+                        <span className="hidden sm:inline">Grid</span>
+                      </button>
+                      <button
+                        type="button"
+                        aria-label="List view"
+                        aria-pressed={view === "list"}
+                        onClick={() => setView("list")}
+                        className={`inline-flex items-center gap-2 rounded px-3 py-1.5 text-sm transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${view === "list"
+                          ? "bg-primary/15 text-foreground shadow-sm ring-1 ring-primary/25"
+                          : "text-muted-foreground hover:text-foreground"
+                          }`}
+                      >
+                        <List className="h-4 w-4" />
+                        <span className="hidden sm:inline">List</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <h2 className="text-2xl font-semibold text-foreground">Projects ({projects.length})</h2>
+
+                <LayoutGroup>
+                  <AnimatePresence mode="popLayout" initial={false}>
+                    {view === "grid" ? (
+                      <motion.div
+                        key="grid"
+                        layout
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.22, ease: "easeInOut" }}
+                        className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8"
+                      >
+                        {projects.map((project) => (
+                          <motion.div
+                            key={project.title}
+                            layout
+                            layoutId={`project-${project.title}`}
+                            initial={{ opacity: 0, y: 6 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.18, ease: "easeOut" }}
+                          >
+                            <ProjectCard {...project} />
+                          </motion.div>
+                        ))}
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="list"
+                        layout
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.22, ease: "easeInOut" }}
+                        className="space-y-8"
+                      >
+                        {projects.map((project) => (
+                          <motion.div
+                            key={project.title}
+                            layout
+                            layoutId={`project-${project.title}`}
+                            initial={{ opacity: 0, y: 6 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.18, ease: "easeOut" }}
+                          >
+                            <ProjectCard {...project} />
+                          </motion.div>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </LayoutGroup>
+              </section>
+            </FadeInSection>
+          </main>
+          <FadeInSection>
+            <footer className="mt-24 pt-8 border-t border-border/30">
+              <div className="flex items-center justify-between">
+                <p className="text-muted-foreground text-sm">
+                  © {new Date().getFullYear()} Uttam Raj. Built with Next.js.
+                </p>
                 <Link
                   href="/"
-                  className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-200 text-sm font-medium"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
                 >
-                  <ArrowLeft className="w-4 h-4" />
                   Back to Home
                 </Link>
-                <div className="space-y-4">
-                  <h1 className="text-4xl lg:text-5xl font-bold text-foreground tracking-tight">All Projects</h1>
-                  <p className="text-xl text-muted-foreground max-w-lg leading-relaxed">
-                    A comprehensive collection of my work spanning systems programming, full-stack development, and AI
-                    integration.
-                  </p>
-                </div>
               </div>
-              <ThemeToggle />
-            </div>
-          </header>
-        </FadeInSection>
-
-        <main>
-          <FadeInSection>
-            <section className="space-y-12">
-              <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-semibold text-foreground">Projects ({projects.length})</h2>
-                <div className="text-sm text-muted-foreground">{projects.length} total projects</div>
-              </div>
-              <div className="space-y-12">
-                {projects.map((project) => (
-                  <ProjectCard key={project.title} {...project} />
-                ))}
-              </div>
-            </section>
+            </footer>
           </FadeInSection>
-        </main>
-
-        <FadeInSection>
-          <footer className="mt-24 pt-8 border-t border-border/30">
-            <div className="flex items-center justify-between">
-              <p className="text-muted-foreground text-sm">
-                © {new Date().getFullYear()} Uttam Raj. Built with Next.js.
-              </p>
-              <Link
-                href="/"
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
-              >
-                Back to Home
-              </Link>
-            </div>
-          </footer>
-        </FadeInSection>
+        </div>
       </div>
-    </div>
+    </FadeInSection>
   )
 }
