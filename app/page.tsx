@@ -179,7 +179,7 @@ export default function Home() {
             </div>
           </section>
 
-          {/* {/* GitHub Activity */} */}
+          {/* GitHub Activity */}
           {/* <section id="github-activity" className="space-y-4"> */}
           {/*   <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-muted px-3 py-1 text-xs text-foreground/80"> */}
           {/*     <span className="block size-1.5 rounded-full bg-blue-600" /> */}
@@ -189,7 +189,7 @@ export default function Home() {
           {/*     <GitHubActivity /> */}
           {/*   </Card> */}
           {/* </section> */}
-
+          {/**/}
           {/* Open Source */}
           <section id="open-source" className="space-y-4">
             <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-muted px-3 py-1 text-xs text-foreground/80">
