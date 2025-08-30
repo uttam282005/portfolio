@@ -1,6 +1,8 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import type React from "react"
+
+import { useMemo, useState } from "react"
 
 type StatusKind = "available" | "busy" | "unavailable"
 
@@ -40,6 +42,12 @@ const STATUS_STYLES: Record<StatusKind, { label: string; dot: string; ring: stri
   },
 }
 
+const STATUS_RGB: Record<StatusKind, string> = {
+  available: "16,185,129", // emerald-500
+  busy: "245,158,11", // amber-500
+  unavailable: "244,63,94", // rose-500
+}
+
 function timeAgo(iso: string) {
   try {
     const diff = Date.now() - new Date(iso).getTime()
@@ -58,7 +66,7 @@ export function StatusIndicator({
   className = "",
   initial,
   showLocation = true,
-  showUpdated = false,
+  showUpdated = true,
   variant = "compact",
 }: StatusIndicatorProps) {
   const [status, setStatus] = useState<StatusConfig>(
@@ -89,10 +97,20 @@ export function StatusIndicator({
 
   const s = useMemo(() => STATUS_STYLES[status.status], [status.status])
 
+  const rgb = STATUS_RGB[status.status]
+  const glowStyle: React.CSSProperties = {
+    // soft ambient radial glow behind the chip
+    background: `radial-gradient(80% 80% at 50% 50%, rgba(${rgb}, 0.25) 0%, rgba(${rgb}, 0.12) 35%, transparent 70%)`,
+  }
+  const fillStyle: React.CSSProperties = {
+    // gentle on-chip color tint
+    background: `linear-gradient(90deg, rgba(${rgb}, 0.08), rgba(${rgb}, 0.03))`,
+  }
+
   const isCompact = variant === "compact"
   const isGlass = variant === "glass"
   const containerClasses = [
-    "inline-flex items-center rounded-full border transition-colors",
+    "relative isolate overflow-hidden inline-flex items-center rounded-full border transition-colors",
     isGlass
       ? "gap-1.5 px-2.5 py-1 text-xs border-border/50 supports-[backdrop-filter]:bg-background/20 bg-background/30 backdrop-blur-md shadow-sm"
       : isCompact
@@ -104,41 +122,54 @@ export function StatusIndicator({
 
   return (
     <div aria-live="polite" className={containerClasses}>
-      {/* Dot + pulse */}
-      <span className={`relative inline-flex ${dotSize}`}>
-        <span className={`absolute inset-0 rounded-full ${s.dot} opacity-40 animate-ping`} />
-        <span className={`relative inline-block ${dotSize} rounded-full ${s.dot}`} />
-      </span>
+      <div aria-hidden className="pointer-events-none absolute -inset-6 rounded-[inherit] blur-md" style={glowStyle} />
+      <div aria-hidden className="pointer-events-none absolute inset-0 rounded-[inherit]" style={fillStyle} />
 
-      <span className={`font-medium ${s.text}`}>
-        <span className="sr-only">Status: </span>
-        {s.label}
-      </span>
+      {/* Content layer above overlays */}
+      <div className="relative z-10 inline-flex items-center gap-2">
+        {/* Dot + pulse with local glow */}
+        <span className={`relative inline-flex ${dotSize}`}>
+          <span
+            aria-hidden
+            className="absolute -inset-2 rounded-full opacity-60 blur-sm"
+            style={{
+              background: `radial-gradient(60% 60% at 50% 50%, rgba(${rgb}, 0.35), transparent 70%)`,
+            }}
+          />
+          <span className={`absolute inset-0 rounded-full ${s.dot} opacity-40 motion-safe:animate-ping`} />
+          <span className={`relative inline-block ${dotSize} rounded-full ${s.dot}`} />
+        </span>
 
-      <span className="text-muted-foreground">•</span>
+        <span className={`font-medium ${s.text}`}>
+          <span className="sr-only">Status: </span>
+          {s.label}
+        </span>
 
-      <span
-        className={["leading-none", isCompact ? "text-xs truncate max-w-[14rem]" : "text-sm"].join(" ")}
-        title={status.message}
-      >
-        {status.message}
-      </span>
+        <span className="text-muted-foreground">•</span>
 
-      {showLocation && status.location ? (
-        <>
-          <span className="text-muted-foreground">•</span>
-          <span className={isCompact ? "text-xs text-muted-foreground" : "text-sm text-muted-foreground"}>
-            {status.location}
-          </span>
-        </>
-      ) : null}
+        <span
+          className={["leading-none", isCompact ? "text-xs truncate max-w-[14rem]" : "text-sm"].join(" ")}
+          title={status.message}
+        >
+          {status.message}
+        </span>
 
-      {showUpdated ? (
-        <>
-          <span className="text-muted-foreground">•</span>
-          <span className="text-xs text-muted-foreground">Updated {timeAgo(status.lastUpdated)}</span>
-        </>
-      ) : null}
+        {showLocation && status.location ? (
+          <>
+            <span className="text-muted-foreground">•</span>
+            <span className={isCompact ? "text-xs text-muted-foreground" : "text-sm text-muted-foreground"}>
+              {status.location}
+            </span>
+          </>
+        ) : null}
+
+        {showUpdated ? (
+          <>
+            <span className="text-muted-foreground">•</span>
+            <span className="text-xs text-muted-foreground">Updated {timeAgo(status.lastUpdated)}</span>
+          </>
+        ) : null}
+      </div>
     </div>
   )
 }
