@@ -27,13 +27,15 @@ export async function GET(
       headers: {
         'Accept': 'application/vnd.github.v3+json',
         'User-Agent': 'MyApp/1.0',
-        // Add GitHub token if you have one (recommended for higher rate limits)
-        // 'Authorization': `token ${process.env.GITHUB_TOKEN}`,
+        ...(process.env.GITHUB_TOKEN && {
+          Authorization: `token ${process.env.GITHUB_TOKEN}`,
+        }),
       },
       // Don't cache the response from GitHub
       cache: 'no-store',
     })
 
+    console.log(process.env.GITHUB_TOKEN)
     if (!response.ok) {
       console.error('GitHub API Error:', {
         status: response.status,
