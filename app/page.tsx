@@ -98,7 +98,7 @@ export default function Home() {
           {/* Hero */}
           <header className="space-y-5">
             <h1 className="text-balance text-4xl md:text-5xl font-bold tracking-tight">
-              {"Backend Engineer building "}
+              {"Software Engineer building "}
               <span className="underline decoration-blue-500 decoration-2 underline-offset-4">
                 {"distributed systems"}
               </span>

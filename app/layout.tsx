@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     description: "Portfolio of Uttam Raj – building full-stack systems, exploring system programming and AI tooling.",
     type: "website",
   },
-  viewport: "width=device-width, initial-scale=1.0",
+  viewport: "width=device-width, initial-scale=1",
 }
 
 export default function RootLayout({
