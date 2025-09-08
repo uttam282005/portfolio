@@ -1,5 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
+import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 
 export const metadata: Metadata = {
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
   keywords: [
     "Uttam Raj", "software engineer", "developer", "competitive programmer", 
     "full-stack developer", "open source contributor", "AI projects", 
-    "blogging platform", "Unix shell", "Next.js", "React", "Hono", "portfolio"
+    "blogging platform", "linux", "Next.js", "React", "Hono", "portfolio", "backend engineer", "gen-ai"
   ],
   authors: [{ name: "Uttam Raj" }],
   openGraph: {
@@ -55,6 +56,7 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+        <Analytics/>
         {children}
       </body>
     </html>
