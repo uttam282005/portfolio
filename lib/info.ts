@@ -6,7 +6,7 @@ export const projects = [
       "A simplified version of Google's MapReduce implemented in Go. Demonstrates distributed task coordination, fault tolerance, and concurrency using a Coordinator–Worker architecture with RPC communication.",
     technologies: ["Go", "RPC", "Concurrency", "Distributed Systems"],
     githubUrl: "https://github.com/uttam282005/mapreduce",
-    imageUrl: "/mapreduce.png",
+    imageUrl: "/github.png",
     liveDemo: false,
   },
   {
