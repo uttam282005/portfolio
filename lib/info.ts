@@ -7,6 +7,7 @@ export const projects = [
     technologies: ["Go", "RPC", "Concurrency", "Distributed Systems"],
     githubUrl: "https://github.com/uttam282005/mapreduce",
     imageUrl: "/github.png",
+    shoeInMain: true,
     liveDemo: false,
   },
   {
@@ -17,6 +18,7 @@ export const projects = [
     technologies: ["C", "POSIX", "Process Management", "Command Execution", "File System Operations"],
     githubUrl: "https://github.com/uttam282005/shell-from-scratch",
     imageUrl: "/github.png",
+    showInMain: true,
     liveDemo: false,
   },
   {

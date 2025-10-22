@@ -14,30 +14,7 @@ import { StatusIndicator } from "@/components/status-indicator"
 import { SmoothScroll } from "@/components/smooth-scroll"
 import { FadeInSection } from "@/components/fade-in-section"
 import { FloatingNav } from "@/components/floating-nav"
-
-const projects = [
-  {
-    title: "Custom Unix Shell",
-    year: "2025",
-    description:
-      "A custom Unix shell written in C. Features a POSIX-compliant interface and supports features like process management, command execution and file system operations.",
-    technologies: ["C", "POSIX", "Process Management", "Command Execution", "File System Operations"],
-    githubUrl: "https://github.com/uttam282005/shell-from-scratch",
-    imageUrl: "/github.png",
-    liveDemo: false,
-  },
-
-  {
-    title: "Gist: AI-Powered Blogging Platform",
-    year: "2024",
-    description:
-      "A full-stack blogging platform featuring AI-assisted content interaction. Integrated  summarization and a RAG-powered chatbot to boost engagement and reduce reading time.",
-    technologies: ["React", "TypeScript", "Python", "LangChain", "RAG", "Hono"],
-    projectUrl: "https://gist-3jc.pages.dev",
-    imageUrl: "/gist.png",
-    githubUrl: "https://github.com/uttam282005/gist",
-  },
-]
+import { projects } from "@/lib/info"
 
 const blogPosts = [
   {
@@ -175,7 +152,7 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             {projects.map((p) => (
-              <ProjectCard key={p.title} {...p} />
+               p.showInMain && <ProjectCard key={p.title} {...p} />
             ))}
           </div>
           <div className="pt-1">
