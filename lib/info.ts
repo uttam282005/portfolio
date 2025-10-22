@@ -7,7 +7,7 @@ export const projects = [
     technologies: ["Go", "RPC", "Concurrency", "Distributed Systems"],
     githubUrl: "https://github.com/uttam282005/mapreduce",
     imageUrl: "/github.png",
-    shoeInMain: true,
+    showInMain: true,
     liveDemo: false,
   },
   {
