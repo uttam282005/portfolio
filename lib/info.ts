@@ -1,5 +1,15 @@
 export const projects = [
   {
+    title: "MapReduce Framework",
+    year: "2025",
+    description:
+      "A simplified version of Google's MapReduce implemented in Go. Demonstrates distributed task coordination, fault tolerance, and concurrency using a Coordinator–Worker architecture with RPC communication.",
+    technologies: ["Go", "RPC", "Concurrency", "Distributed Systems"],
+    githubUrl: "https://github.com/uttam282005/mapreduce",
+    imageUrl: "/mapreduce.png",
+    liveDemo: false,
+  },
+  {
     title: "Custom Unix Shell",
     year: "2025",
     description:
@@ -9,17 +19,17 @@ export const projects = [
     imageUrl: "/github.png",
     liveDemo: false,
   },
-
   {
     title: "Gist: AI-Powered Blogging Platform",
     year: "2024",
     description:
-      "A full-stack blogging platform featuring AI-assisted content interaction. Integrated  summarization and a RAG-powered chatbot to boost engagement and reduce reading time.",
+      "A full-stack blogging platform featuring AI-assisted content interaction. Integrated summarization and a RAG-powered chatbot to boost engagement and reduce reading time.",
     technologies: ["React", "TypeScript", "Python", "LangChain", "RAG", "Hono"],
     projectUrl: "https://gist-3jc.pages.dev",
     imageUrl: "/gist.png",
     githubUrl: "https://github.com/uttam282005/gist",
   },
+
   {
     title: "URL Shortening CLI Tool",
     year: "2024",
@@ -29,6 +39,7 @@ export const projects = [
     githubUrl: "https://github.com/uttam282005/url-shortner-cli-tool",
     imageUrl: "/github.png",
   },
+
   {
     title: "MindCare: Mental Health Platform",
     year: "2024",
