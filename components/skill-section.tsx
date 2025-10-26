@@ -9,7 +9,7 @@ type Category = {
 const CATEGORIES: Category[] = [
   {
     title: "Languages & Runtimes",
-    items: ["C", "C++", "Python", "TypeScript", "JavaScript", "Node.js"],
+    items: ["C", "C++", "Python", "TypeScript","Go", "JavaScript", "Node.js"],
   },
   {
     title: "Frameworks & Libraries",
@@ -17,11 +17,11 @@ const CATEGORIES: Category[] = [
   },
   {
     title: "Databases & Messaging",
-    items: ["PostgreSQL", "Redis", "Firebase"],
+    items: ["PostgreSQL", "Redis", "Firebase", "MongoDB"],
   },
   {
     title: "Cloud & Infra",
-    items: ["AWS Lambda", "Docker", "Linux", "AWS"],
+    items: ["AWS Lambda", "Docker", "Linux", "AWS", "Cloudfare", "Render", "Vercel", "Heroku"],
   },
   {
     title: "Testing & Quality",
@@ -29,11 +29,11 @@ const CATEGORIES: Category[] = [
   },
   {
     title: "Dev & Tooling",
-    items: ["Git", "GitHub Actions", "Vercel", "VS Code", "Neovim", "Emacs", "GDB"],
+    items: ["Git", "GitHub Actions", "VS Code", "Neovim", "Emacs", "GDB"],
   },
   {
     title: "Core CS",
-    items: ["Data Structures & Algorithms", "Object-Oriented Programming", "Operating Systems", "Computer Networks"],
+    items: ["Data Structures & Algorithms", "Object-Oriented Programming", "Operating Systems", "Computer Networks", "Databases"],
   },
 ]
 
