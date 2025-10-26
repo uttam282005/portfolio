@@ -87,8 +87,8 @@ export default function Home() {
 
             {/* keep the rest of hero content */}
             <p className="text-pretty text-muted-foreground leading-relaxed">
-              I care about reliability, performance, and developer experience. Previously built a POSIX-style shell,
-              AI-assisted blogging tools, and platform primitives across the stack.
+              I care about correctness, performance, and clean system design. I contribute to open source,
+              practice competitive programming, and document my learning through projects and writing.
             </p>
             <StatusIndicator showUpdated={false} showLocation variant="glass" className="mt-1" />
             <div className="flex items-center gap-4">
@@ -107,125 +107,124 @@ export default function Home() {
             </div>
           </header>
         </FadeInSection>
-        
+
         {/* About */}
         <FadeInSection>
-        <section id="about" className="space-y-4">
-          <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-muted px-3 py-1 text-xs text-foreground/80">
-            <span className="block size-1.5 rounded-full bg-blue-600" />
-            About
-          </div>
-          <Card className="p-6 border-border/60">
-            <div className="space-y-4 text-muted-foreground leading-relaxed">
-              <p>
-                I'm a prefinal‑year B.Tech student in Computational Mathematics at NIT Agartala. I enjoy building
-                high‑performance backends and exploring the internals of operating systems, networks, and distributed
-                systems.
-              </p>
-              <p>
-                I’ve shipped a POSIX‑style shell, full‑stack AI products, and developer tools using React, TypeScript,
-                Python, and Hono. I also practice competitive programming and have solved 800+ problems across
-                platforms.
-              </p>
+          <section id="about" className="space-y-4">
+            <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-muted px-3 py-1 text-xs text-foreground/80">
+              <span className="block size-1.5 rounded-full bg-blue-600" />
+              About
             </div>
-          </Card>
-        </section>
+            <Card className="p-6 border-border/60">
+              <div className="space-y-4 text-muted-foreground leading-relaxed">
+                <p>
+                  I'm a prefinal-year B.Tech student in Computational Mathematics at NIT Agartala.
+                  I focus on building reliable backend systems and understanding how things work under the hood, from OS syscalls to
+                  distributed coordination protocols.
+                </p>
+                <p>
+                  I recently built a MapReduce framework in Go with a coordinator–worker execution model and fault-aware task
+                  rescheduling. Before that, I worked on AI-driven platforms and a Unix-style shell using Linux syscalls.
+                </p>
+              </div>
+            </Card>
+          </section>
         </FadeInSection>
 
         {/* Skills */}
         <FadeInSection>
-        <section id="skills" className="space-y-4">
-          <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-muted px-3 py-1 text-xs text-foreground/80">
-            <span className="block size-1.5 rounded-full bg-blue-600" />
-            Skills
-          </div>
-          <SkillsSection />
-        </section>
+          <section id="skills" className="space-y-4">
+            <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-muted px-3 py-1 text-xs text-foreground/80">
+              <span className="block size-1.5 rounded-full bg-blue-600" />
+              Skills
+            </div>
+            <SkillsSection />
+          </section>
         </FadeInSection>
 
         {/* Projects */}
         <FadeInSection>
-        <section id="projects" className="space-y-4">
-          <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-muted px-3 py-1 text-xs text-foreground/80">
-            <span className="block size-1.5 rounded-full bg-blue-600" />
-            Featured Projects
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-            {projects.map((p) => (
-               p.showInMain && <ProjectCard key={p.title} {...p} />
-            ))}
-          </div>
-          <div className="pt-1">
-            <Link href="/projects" className="text-sm text-blue-600 hover:underline underline-offset-4">
-              View all →
-            </Link>
-          </div>
-        </section>
+          <section id="projects" className="space-y-4">
+            <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-muted px-3 py-1 text-xs text-foreground/80">
+              <span className="block size-1.5 rounded-full bg-blue-600" />
+              Featured Projects
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+              {projects.map((p) => (
+                p.showInMain && <ProjectCard key={p.title} {...p} />
+              ))}
+            </div>
+            <div className="pt-1">
+              <Link href="/projects" className="text-sm text-blue-600 hover:underline underline-offset-4">
+                View all →
+              </Link>
+            </div>
+          </section>
         </FadeInSection>
         {/* GitHub Activity */}
 
         <FadeInSection>
-        <section id="github-activity" className="space-y-4">
-          <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-muted px-3 py-1 text-xs text-foreground/80">
-            <span className="block size-1.5 rounded-full bg-blue-600" />
-            GitHub Activity
-          </div>
-          <Card className="p-6 border-border/60">
-            <GitHubActivity />
-          </Card>
-        </section>
+          <section id="github-activity" className="space-y-4">
+            <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-muted px-3 py-1 text-xs text-foreground/80">
+              <span className="block size-1.5 rounded-full bg-blue-600" />
+              GitHub Activity
+            </div>
+            <Card className="p-6 border-border/60">
+              <GitHubActivity />
+            </Card>
+          </section>
         </FadeInSection>
 
         {/* Open Source */}
         <FadeInSection>
-        <section id="open-source" className="space-y-4">
-          <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-muted px-3 py-1 text-xs text-foreground/80">
-            <span className="block size-1.5 rounded-full bg-blue-600" />
-            Open Source Contributions
-          </div>
-          <OpenSourceSection />
-        </section>
+          <section id="open-source" className="space-y-4">
+            <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-muted px-3 py-1 text-xs text-foreground/80">
+              <span className="block size-1.5 rounded-full bg-blue-600" />
+              Open Source Contributions
+            </div>
+            <OpenSourceSection />
+          </section>
         </FadeInSection>
 
         {/* Writing */}
         <FadeInSection>
-        <section id="writing" className="space-y-4">
-          <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-muted px-3 py-1 text-xs text-foreground/80">
-            <span className="block size-1.5 rounded-full bg-blue-600" />
-            Recent Writing
-          </div>
-          <div className="space-y-4">
-            {blogPosts.map(({ title, date, desc, link }) => (
-              <Card key={title} className="p-5 md:p-6 border-border/60 transition-colors">
-                <div className="flex items-start justify-between gap-4">
-                  <h3 className="text-pretty text-base md:text-lg font-medium">
-                    <Link
-                      href={link}
-                      className="hover:underline underline-offset-4"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {title}
-                    </Link>
-                  </h3>
-                  <time className="text-xs text-muted-foreground font-mono flex-shrink-0">{date}</time>
-                </div>
-                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{desc}</p>
-              </Card>
-            ))}
-          </div>
-        </section>
+          <section id="writing" className="space-y-4">
+            <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-muted px-3 py-1 text-xs text-foreground/80">
+              <span className="block size-1.5 rounded-full bg-blue-600" />
+              Recent Writing
+            </div>
+            <div className="space-y-4">
+              {blogPosts.map(({ title, date, desc, link }) => (
+                <Card key={title} className="p-5 md:p-6 border-border/60 transition-colors">
+                  <div className="flex items-start justify-between gap-4">
+                    <h3 className="text-pretty text-base md:text-lg font-medium">
+                      <Link
+                        href={link}
+                        className="hover:underline underline-offset-4"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {title}
+                      </Link>
+                    </h3>
+                    <time className="text-xs text-muted-foreground font-mono flex-shrink-0">{date}</time>
+                  </div>
+                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{desc}</p>
+                </Card>
+              ))}
+            </div>
+          </section>
         </FadeInSection>
 
         {/* Now */}
         <FadeInSection>
-        <section id="now" className="space-y-4">
-          <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-muted px-3 py-1 text-xs text-foreground/80">
-            <span className="block size-1.5 rounded-full bg-blue-600" />
-            Now
-          </div>
-          <NowSection />
-        </section>
+          <section id="now" className="space-y-4">
+            <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-muted px-3 py-1 text-xs text-foreground/80">
+              <span className="block size-1.5 rounded-full bg-blue-600" />
+              Now
+            </div>
+            <NowSection />
+          </section>
         </FadeInSection>
 
         {/* Contact */}

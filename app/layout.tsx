@@ -6,18 +6,18 @@ import "./globals.css"
 export const metadata: Metadata = {
   title: "Uttam Raj - Software Engineer",
   icons: {
-   icon: "/me.png"
+    icon: "/me.png"
   },
-  description: "B.Tech student in Computational Mathematics at NIT Agartala. Passionate about building impactful systems, open source, and AI-driven platforms.",
+  description: "B.Tech student in Computational Mathematics at NIT Agartala. Building distributed systems, high-performance backends, and open-source developer tooling.",
   keywords: [
-    "Uttam Raj", "software engineer", "developer", "competitive programmer", 
-    "full-stack developer", "open source contributor", "AI projects", 
-    "blogging platform", "linux", "Next.js", "React", "Hono", "portfolio", "backend engineer", "gen-ai"
+    "Uttam Raj", "software engineer", "distributed systems", "system programming",
+    "backend engineer", "Go", "TypeScript", "MapReduce", "open source contributor",
+    "React", "Next.js", "Hono", "PostgreSQL", "Redis", "Linux", "competitive programming"
   ],
   authors: [{ name: "Uttam Raj" }],
   openGraph: {
     title: "Uttam Raj - Software Engineer",
-    description: "Portfolio of Uttam Raj – building full-stack systems, exploring system programming and AI tooling.",
+    description: "Portfolio of Uttam Raj – Systems programming, distributed computing, open-source contributor.",
     type: "website",
   },
   viewport: "width=device-width, initial-scale=1",
