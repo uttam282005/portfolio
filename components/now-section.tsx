@@ -35,7 +35,7 @@ export function NowSection() {
       type: "skill",
       title: "Distributed systems",
       description: "Exploring Distributed Systems",
-      progress: 0,
+      progress: 20,
       startDate: "2025-09-01",
     },
     {
@@ -47,9 +47,9 @@ export function NowSection() {
     },
     {
       type: "project",
-      title: "Multithreaded proxy web server",
-      description: "Implementing a multi threaded proxy web server most probably in C",
-      progress: 10,
+      title: "mapreduce",
+      description: "implementing the MapReduce programming model from scratch.",
+      progress: 100,
       startDate: "2025-08-29",
     },
     {

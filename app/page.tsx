@@ -87,7 +87,7 @@ export default function Home() {
 
             {/* keep the rest of hero content */}
             <p className="text-pretty text-muted-foreground leading-relaxed">
-              I care about correctness, performance, and clean system design. I contribute to open source,
+              Hi, I am Uttam. I contribute to open source,
               practice competitive programming, and document my learning through projects and writing.
             </p>
             <StatusIndicator showUpdated={false} showLocation variant="glass" className="mt-1" />
@@ -118,13 +118,8 @@ export default function Home() {
             <Card className="p-6 border-border/60">
               <div className="space-y-4 text-muted-foreground leading-relaxed">
                 <p>
-                  I'm a prefinal-year B.Tech student in Computational Mathematics at NIT Agartala.
-                  I focus on building reliable backend systems and understanding how things work under the hood, from OS syscalls to
-                  distributed coordination protocols.
-                </p>
-                <p>
-                  I recently built a MapReduce framework in Go with a coordinator–worker execution model and fault-aware task
-                  rescheduling. Before that, I worked on AI-driven platforms and a Unix-style shell using Linux syscalls.
+I build things that solve problems.
+Currently studying Computational Mathematics at NIT Agartala and diving deep into systems and backend development.
                 </p>
               </div>
             </Card>
