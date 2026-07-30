@@ -43,7 +43,7 @@ export default function Home() {
                 ["#about", "About"],
                 ["#skills", "Skills"],
                 ["#projects", "Projects"],
-                ["#open-source", "OSS"],
+                ["/open-source", "OSS"],
                 ["#writing", "Writing"],
                 ["#now", "Now"],
                 ["#contact", "Contact"],
@@ -178,6 +178,11 @@ Currently studying Computational Mathematics at NIT Agartala and diving deep int
               Open Source Contributions
             </div>
             <OpenSourceSection />
+            <div className="pt-1">
+              <Link href="/open-source" className="text-sm text-blue-600 hover:underline underline-offset-4">
+                View all →
+              </Link>
+            </div>
           </section>
         </FadeInSection>
 
