@@ -43,7 +43,7 @@ export default function Home() {
                 ["#about", "About"],
                 ["#skills", "Skills"],
                 ["#projects", "Projects"],
-                ["#open-source", "OSS"],
+                ["/open-source", "OSS"],
                 ["#writing", "Writing"],
                 ["#now", "Now"],
                 ["#contact", "Contact"],
