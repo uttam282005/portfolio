@@ -1,5 +1,4 @@
 import { Card } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 
 type Category = {
   title: string
@@ -8,50 +7,45 @@ type Category = {
 
 const CATEGORIES: Category[] = [
   {
-    title: "Languages & Runtimes",
-    items: ["C", "C++", "Python", "TypeScript","Go", "JavaScript", "Node.js"],
+    title: "Systems & Languages",
+    items: ["C", "C++20", "Go", "Python", "TypeScript", "POSIX / Linux", "Bash"],
   },
   {
-    title: "Frameworks & Libraries",
-    items: ["React", "Next.js", "Express.js", "Hono", "Tailwind CSS", "Redux"],
+    title: "Distributed Systems & Infra",
+    items: ["MapReduce", "gRPC", "RPC Protocols", "Docker", "Linux Internals", "AWS Lambda"],
   },
   {
-    title: "Databases & Messaging",
-    items: ["PostgreSQL", "Redis", "Firebase", "MongoDB"],
+    title: "Databases & Storage",
+    items: ["PostgreSQL", "Redis", "Memory Pools", "MongoDB"],
   },
   {
-    title: "Cloud & Infra",
-    items: ["AWS Lambda", "Docker", "Linux", "AWS", "Cloudfare", "Render", "Vercel", "Heroku"],
-  },
-  {
-    title: "Testing & Quality",
-    items: ["Jest", "Vitest", "ESLint", "Prettier"],
-  },
-  {
-    title: "Dev & Tooling",
-    items: ["Git", "GitHub Actions", "VS Code", "Neovim", "Emacs", "GDB"],
+    title: "Backend & Web",
+    items: ["Hono", "Express.js", "Node.js", "Next.js", "REST APIs"],
   },
   {
     title: "Core CS",
-    items: ["Data Structures & Algorithms", "Object-Oriented Programming", "Operating Systems", "Computer Networks", "Databases"],
+    items: ["Operating Systems", "Concurrency & Multithreading", "Data Structures & Algorithms", "Computer Networks"],
+  },
+  {
+    title: "Developer Tooling",
+    items: ["Git", "GitHub Actions", "GDB", "Valgrind", "Neovim", "Linux CLI"],
   },
 ]
 
 export function SkillsSection() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
       {CATEGORIES.map(({ title, items }) => (
-        <Card key={title} className="p-5 md:p-6 border-border/60 transition-colors">
-          <h3 className="text-sm font-medium text-foreground/90">{title}</h3>
-          <div className="mt-3 flex flex-wrap gap-2">
+        <Card key={title} className="p-4 sm:p-5 border-border/60 bg-card/50 transition-colors">
+          <h3 className="text-xs font-mono uppercase tracking-wider text-muted-foreground">{title}</h3>
+          <div className="mt-2.5 flex flex-wrap gap-1.5">
             {items.map((label) => (
-              <Badge
+              <span
                 key={label}
-                variant="secondary"
-                className="rounded-md border border-border/50 bg-muted text-foreground/80"
+                className="font-mono text-xs rounded border border-border/50 bg-muted/30 px-2 py-0.5 text-foreground/85"
               >
                 {label}
-              </Badge>
+              </span>
             ))}
           </div>
         </Card>

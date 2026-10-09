@@ -10,7 +10,6 @@ export function ThemeToggle() {
   useEffect(() => {
     setMounted(true)
 
-    // Get initial theme
     const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches
     const initialTheme = savedTheme || (prefersDark ? "dark" : "light")
@@ -38,27 +37,26 @@ export function ThemeToggle() {
     applyTheme(newTheme)
   }
 
-  // Prevent hydration mismatch
   if (!mounted) {
     return (
-      <div className="p-2 sm:p-3 rounded-lg bg-gray-100 dark:bg-gray-800 w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center">
-        <div className="w-4 h-4 sm:w-5 sm:h-5" />
+      <div className="p-1.5 sm:p-2 rounded-md border border-border/50 bg-muted/20 w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center">
+        <div className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
       </div>
     )
   }
 
-return (
-  <button
-    onClick={toggleTheme}
-    className="p-1 sm:p-2 rounded-md bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
-    aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
-    title={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
-  >
-    {theme === "light" ? (
-      <Moon className="w-3 h-3 sm:w-4 sm:h-4 text-gray-600 dark:text-gray-400" />
-    ) : (
-      <Sun className="w-3 h-3 sm:w-4 sm:h-4 text-gray-600 dark:text-gray-400" />
-    )}
-  </button>
-)
+  return (
+    <button
+      onClick={toggleTheme}
+      className="p-1.5 sm:p-2 rounded-md border border-border/60 bg-muted/30 hover:bg-muted/70 hover:border-foreground/30 text-muted-foreground hover:text-foreground transition-all duration-200 focus:outline-none"
+      aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+      title={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+    >
+      {theme === "light" ? (
+        <Moon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+      ) : (
+        <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+      )}
+    </button>
+  )
 }

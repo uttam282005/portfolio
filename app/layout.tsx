@@ -1,26 +1,42 @@
 import type React from "react"
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+}
+
 export const metadata: Metadata = {
-  title: "Uttam Raj - Software Engineer",
-  icons: {
-    icon: "/me.png"
+  title: {
+    default: "Uttam Raj — Systems & Backend Engineer",
+    template: "%s | Uttam Raj",
   },
-  description: "B.Tech student in Computational Mathematics at NIT Agartala. Building distributed systems, high-performance backends, and open-source developer tooling.",
+  icons: {
+    icon: "/me.png",
+  },
+  description:
+    "Computational Mathematics student at NIT Agartala. Building distributed systems, high-performance C++20 engines, Go services, and open-source infrastructure.",
   keywords: [
-    "Uttam Raj", "software engineer", "distributed systems", "system programming",
-    "backend engineer", "Go", "TypeScript", "MapReduce", "open source contributor",
-    "React", "Next.js", "Hono", "PostgreSQL", "Redis", "Linux", "competitive programming"
+    "Uttam Raj",
+    "systems engineer",
+    "backend engineer",
+    "distributed systems",
+    "Go",
+    "C++20",
+    "MapReduce",
+    "matching engine",
+    "concurrency",
+    "Linux",
+    "open source",
   ],
   authors: [{ name: "Uttam Raj" }],
   openGraph: {
-    title: "Uttam Raj - Software Engineer",
-    description: "Portfolio of Uttam Raj – Systems programming, distributed computing, open-source contributor.",
+    title: "Uttam Raj — Systems & Backend Engineer",
+    description: "Computational Mathematics at NIT Agartala. Distributed systems, C++20 low-latency engines, Go microservices, and open-source infrastructure.",
     type: "website",
   },
-  viewport: "width=device-width, initial-scale=1",
 }
 
 export default function RootLayout({
@@ -55,8 +71,8 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="antialiased bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300">
-        <Analytics/>
+      <body className="antialiased min-h-screen bg-background text-foreground transition-colors duration-200 selection:bg-neutral-200 dark:selection:bg-neutral-800">
+        <Analytics />
         {children}
       </body>
     </html>
