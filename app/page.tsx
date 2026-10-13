@@ -55,12 +55,6 @@ export default async function Home() {
                 Writing
               </Link>
               <Link
-                href="#about"
-                className="text-muted-foreground hover:text-foreground transition-colors hidden sm:inline"
-              >
-                About
-              </Link>
-              <Link
                 href="#contact"
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
@@ -97,7 +91,7 @@ export default async function Home() {
           </div>
 
           <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-2xl">
-            Hi, I&apos;m Uttam. I study Computational Mathematics at NIT Agartala. I focus on distributed coordination, concurrency, memory efficiency in C++20 and Go, and open-source infrastructure.
+            I’m Uttam, a student at NIT Agartala building toward backend and systems engineering. Interested in Go, distributed systems, concurrency, and open-source software.
           </p>
 
           <div className="flex flex-wrap items-center gap-4 pt-1 text-xs font-mono text-muted-foreground">
@@ -141,7 +135,7 @@ export default async function Home() {
                 Featured Projects
               </h2>
               <p className="text-xs sm:text-sm text-muted-foreground">
-                Systems architecture, distributed coordination, and performance engineering.
+                                Distributed systems and Go
               </p>
             </div>
             <Link
@@ -169,9 +163,6 @@ export default async function Home() {
               <h2 className="text-xl font-semibold tracking-tight text-foreground">
                 Open Source Contributions
               </h2>
-              <p className="text-xs sm:text-sm text-muted-foreground">
-                Refactoring and hardening developer tools and runtime libraries.
-              </p>
             </div>
             <Link
               href="/open-source"
@@ -271,32 +262,6 @@ export default async function Home() {
           <SkillsSection />
         </section>
 
-        {/* About Section */}
-        <section id="about" className="space-y-6">
-          <div className="space-y-1">
-            <h2 className="text-xl font-semibold tracking-tight text-foreground">
-              About
-            </h2>
-            <p className="text-xs sm:text-sm text-muted-foreground">
-              Background, focus, and core principles.
-            </p>
-          </div>
-
-          <Card className="p-5 sm:p-6 border-border/60 bg-card/50">
-            <div className="space-y-3.5 text-sm sm:text-base text-muted-foreground leading-relaxed">
-              <p>
-                I am an engineer drawn to problems where correctness, latency, and system stability intersect. Currently pursuing my degree in Computational Mathematics at the National Institute of Technology (NIT) Agartala, I combine mathematical rigor with low-level systems programming.
-              </p>
-              <p>
-                My projects revolve around building foundational components from scratch—such as an in-memory limit order book matching engine in C++20 with custom memory pools, distributed coordinators in Go, and custom POSIX shell environments.
-              </p>
-              <p>
-                Beyond individual projects, I actively contribute to developer ecosystems like AWS Lambda Powertools, solve competitive programming problems, and write technical essays documenting the architectural trade-offs I discover along the way.
-              </p>
-            </div>
-          </Card>
-        </section>
-
         {/* Now Section */}
         <section id="now" className="space-y-6">
           <div className="space-y-1">
@@ -357,7 +322,7 @@ export default async function Home() {
 
         {/* Minimal Footer */}
         <footer className="pt-8 pb-12 border-t border-border/40 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
-          <p>© {new Date().getFullYear()} Uttam Raj. Engineered with precision.</p>
+          <p>© {new Date().getFullYear()} Uttam Raj.</p>
           <div className="flex items-center gap-4">
             <Link href="#projects" className="hover:text-foreground transition-colors">
               Projects

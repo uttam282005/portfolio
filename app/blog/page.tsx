@@ -66,7 +66,7 @@ export default async function BlogIndexPage() {
           </h1>
 
           <p className="text-muted-foreground text-base sm:text-lg leading-relaxed max-w-2xl text-pretty">
-            In-depth engineering essays, postmortems, and technical notes covering distributed systems,
+            Engineering essays, postmortems, and technical notes covering distributed systems,
             low-latency architecture, concurrency primitives, and practical systems engineering.
           </p>
 
