@@ -3,11 +3,16 @@ import path from "path"
 import crypto from "crypto"
 import { execSync } from "child_process"
 
-const CACHE_DIR = path.join(process.cwd(), ".cache/mermaid")
+// Committed diagrams directory tracked by git for zero-dependency CI/CD builds
+const DIAGRAMS_DIR = path.join(process.cwd(), "content/diagrams")
+const TEMP_DIR = path.join(process.cwd(), ".cache/mermaid")
 
-// Ensure cache directory exists
-if (!fs.existsSync(CACHE_DIR)) {
-  fs.mkdirSync(CACHE_DIR, { recursive: true })
+// Ensure directories exist
+if (!fs.existsSync(DIAGRAMS_DIR)) {
+  fs.mkdirSync(DIAGRAMS_DIR, { recursive: true })
+}
+if (!fs.existsSync(TEMP_DIR)) {
+  fs.mkdirSync(TEMP_DIR, { recursive: true })
 }
 
 const lightThemeConfig = {
@@ -79,15 +84,19 @@ const darkThemeConfig = {
   },
 }
 
-const lightConfigPath = path.join(CACHE_DIR, "config-light.json")
-const darkConfigPath = path.join(CACHE_DIR, "config-dark.json")
+const lightConfigPath = path.join(TEMP_DIR, "config-light.json")
+const darkConfigPath = path.join(TEMP_DIR, "config-dark.json")
 
-fs.writeFileSync(lightConfigPath, JSON.stringify(lightThemeConfig))
-fs.writeFileSync(darkConfigPath, JSON.stringify(darkThemeConfig))
+try {
+  fs.writeFileSync(lightConfigPath, JSON.stringify(lightThemeConfig))
+  fs.writeFileSync(darkConfigPath, JSON.stringify(darkThemeConfig))
+} catch {}
 
 export interface RenderedDiagram {
   light: string
   dark: string
+  isFallback?: boolean
+  rawCode?: string
 }
 
 function scopeSvg(svgContent: string, scopeId: string): string {
@@ -95,28 +104,40 @@ function scopeSvg(svgContent: string, scopeId: string): string {
 }
 
 /**
- * Pre-renders a Mermaid code string to light and dark theme SVGs at build time.
- * Uses disk caching so repeat builds or pages are instantaneous.
+ * Pre-renders a Mermaid code string to light and dark theme SVGs.
+ *
+ * 1. Checks content/diagrams/ (tracked in git) for pre-rendered SVGs.
+ *    If present, reads them directly — zero dependency on Puppeteer in CI (Vercel).
+ * 2. If missing and mmdc/Chromium is available (local dev), generates them
+ *    and writes them to content/diagrams/.
+ * 3. If mmdc is unavailable (cloud CI without Chromium), flags isFallback=true
+ *    for dynamic client-side rendering with mermaid.js.
  */
 export function renderMermaidSync(code: string): RenderedDiagram {
   const trimmed = code.trim()
   const hash = crypto.createHash("sha256").update(trimmed).digest("hex").slice(0, 16)
 
-  const lightOutPath = path.join(CACHE_DIR, `${hash}-light.svg`)
-  const darkOutPath = path.join(CACHE_DIR, `${hash}-dark.svg`)
+  const lightOutPath = path.join(DIAGRAMS_DIR, `${hash}-light.svg`)
+  const darkOutPath = path.join(DIAGRAMS_DIR, `${hash}-dark.svg`)
 
-  // Return cached SVGs if already generated
+  // 1. Return pre-rendered SVGs from git-tracked directory if available
   if (fs.existsSync(lightOutPath) && fs.existsSync(darkOutPath)) {
-    return {
-      light: fs.readFileSync(lightOutPath, "utf-8"),
-      dark: fs.readFileSync(darkOutPath, "utf-8"),
+    try {
+      return {
+        light: fs.readFileSync(lightOutPath, "utf-8"),
+        dark: fs.readFileSync(darkOutPath, "utf-8"),
+        isFallback: false,
+      }
+    } catch (e) {
+      // Continue to generation if reading fails
     }
   }
 
-  const tempMmdPath = path.join(CACHE_DIR, `input-${hash}.mmd`)
-  fs.writeFileSync(tempMmdPath, trimmed, "utf-8")
-
+  // 2. Try compiling locally with mmdc
+  const tempMmdPath = path.join(TEMP_DIR, `input-${hash}.mmd`)
   try {
+    fs.writeFileSync(tempMmdPath, trimmed, "utf-8")
+
     // Generate light SVG
     execSync(
       `npx mmdc -i "${tempMmdPath}" -o "${lightOutPath}" -c "${lightConfigPath}" -b transparent --no-font-embed`,
@@ -141,14 +162,17 @@ export function renderMermaidSync(code: string): RenderedDiagram {
     return {
       light: lightScoped,
       dark: darkScoped,
+      isFallback: false,
     }
   } catch (err: any) {
-    console.error(`Failed to compile Mermaid diagram ${hash}:`, err.message)
-    // Fallback error placeholder
-    const fallbackSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 60"><text x="20" y="35" fill="currentColor" font-family="monospace" font-size="12">Mermaid diagram syntax error</text></svg>`
+    // In CI (e.g. Vercel) where Chromium is unavailable, mmdc will fail.
+    // Return fallback flag so client-side mermaid.js or formatted code renders smoothly.
+    console.warn(`[Mermaid] Build-time compile not available for ${hash}, falling back to client render:`, err.message)
     return {
-      light: fallbackSvg,
-      dark: fallbackSvg,
+      light: "",
+      dark: "",
+      isFallback: true,
+      rawCode: trimmed,
     }
   } finally {
     if (fs.existsSync(tempMmdPath)) {

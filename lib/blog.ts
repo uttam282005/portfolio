@@ -27,7 +27,31 @@ function remarkMermaid() {
     visit(tree, "code", (node: any, index: number | undefined, parent: any) => {
       if (node.lang === "mermaid") {
         const rawCode = node.value.trim()
-        const { light, dark } = renderMermaidSync(rawCode)
+        const { light, dark, isFallback } = renderMermaidSync(rawCode)
+
+        let diagramContent = ""
+        if (isFallback) {
+          const encoded = Buffer.from(rawCode, "utf-8").toString("base64")
+          diagramContent = `
+  <div class="p-6 sm:p-8 overflow-x-auto flex justify-center items-center bg-grid-pattern relative">
+    <div class="mermaid-client-render w-full flex justify-center" data-raw-b64="${encoded}">
+      <div class="flex items-center gap-2 text-xs font-mono text-muted-foreground animate-pulse py-4">
+        <span>Rendering diagram...</span>
+      </div>
+    </div>
+  </div>`
+        } else {
+          diagramContent = `
+  <div class="p-6 sm:p-8 overflow-x-auto flex justify-center items-center bg-grid-pattern relative">
+    <div class="diagram-svg-light dark:hidden w-full flex justify-center">
+      ${light}
+    </div>
+    <div class="diagram-svg-dark hidden dark:flex w-full flex justify-center">
+      ${dark}
+    </div>
+  </div>`
+        }
+
         parent.children[index!] = {
           type: "html",
           value: `<figure class="diagram-figure not-prose my-10 overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all" data-diagram="mermaid">
@@ -41,15 +65,7 @@ function remarkMermaid() {
       <span class="font-mono text-xs text-muted-foreground font-medium">Architecture Diagram</span>
     </div>
     <span class="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded bg-accent-soft text-accent border border-accent/20 font-semibold">MERMAID</span>
-  </div>
-  <div class="p-6 sm:p-8 overflow-x-auto flex justify-center items-center bg-grid-pattern relative">
-    <div class="diagram-svg-light dark:hidden w-full flex justify-center">
-      ${light}
-    </div>
-    <div class="diagram-svg-dark hidden dark:flex w-full flex justify-center">
-      ${dark}
-    </div>
-  </div>
+  </div>${diagramContent}
 </figure>`,
         }
       }
