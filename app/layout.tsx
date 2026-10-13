@@ -1,7 +1,19 @@
-import type React from "react"
 import type { Metadata, Viewport } from "next"
 import { Analytics } from "@vercel/analytics/next"
+import { Fraunces, JetBrains_Mono } from "next/font/google"
 import "./globals.css"
+
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-serif",
+  display: "swap",
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+})
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -71,7 +83,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="antialiased min-h-screen bg-background text-foreground transition-colors duration-200 selection:bg-neutral-200 dark:selection:bg-neutral-800">
+      <body className={`antialiased min-h-screen bg-background text-foreground transition-colors duration-200 selection:bg-accent-soft selection:text-foreground ${fraunces.variable} ${jetbrainsMono.variable}`}>
         <Analytics />
         {children}
       </body>

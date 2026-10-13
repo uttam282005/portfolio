@@ -48,15 +48,20 @@ export function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="p-1.5 sm:p-2 rounded-md border border-border/60 bg-muted/30 hover:bg-muted/70 hover:border-foreground/30 text-muted-foreground hover:text-foreground transition-all duration-200 focus:outline-none"
+      className="relative p-1.5 sm:p-2 rounded-md border border-border/60 bg-muted/30 hover:bg-muted/70 hover:border-foreground/30 text-muted-foreground hover:text-foreground transition-all duration-200 focus:outline-none w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center overflow-hidden"
       aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
       title={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
     >
-      {theme === "light" ? (
-        <Moon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-      ) : (
-        <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-      )}
+      <Moon
+        className={`w-3.5 h-3.5 sm:w-4 sm:h-4 absolute transition-all duration-200 ease-out ${
+          theme === "light" ? "opacity-100 scale-100" : "opacity-0 scale-75 pointer-events-none"
+        }`}
+      />
+      <Sun
+        className={`w-3.5 h-3.5 sm:w-4 sm:h-4 absolute transition-all duration-200 ease-out ${
+          theme === "dark" ? "opacity-100 scale-100" : "opacity-0 scale-75 pointer-events-none"
+        }`}
+      />
     </button>
   )
 }

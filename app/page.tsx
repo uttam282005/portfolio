@@ -15,7 +15,13 @@ export default async function Home() {
   const recentPosts = allPosts.slice(0, 3)
 
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main className="min-h-screen bg-background text-foreground relative overflow-x-hidden">
+      {/* Background Atmosphere & Ambient Lighting */}
+      <div className="absolute top-0 inset-x-0 h-[560px] pointer-events-none overflow-hidden -z-10 select-none">
+        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[820px] h-[400px] bg-gradient-to-b from-stone-400/20 via-stone-300/5 to-transparent dark:from-zinc-500/15 dark:via-zinc-800/5 dark:to-transparent blur-3xl rounded-full" />
+        <div className="absolute inset-0 bg-grid-pattern opacity-[0.35] dark:opacity-[0.2] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,black_70%,transparent_100%)]" />
+      </div>
+
       <FloatingNav />
 
       {/* Clean Minimalist Top Header */}
@@ -206,10 +212,10 @@ export default async function Home() {
               recentPosts.map((post) => (
                 <Card
                   key={post.slug}
-                  className="p-5 border-border/60 bg-card/50 hover:bg-card/90 hover:border-foreground/30 transition-all duration-200 group"
+                  className="p-5 sm:p-6 rounded-2xl border-border/70 bg-card/40 dark:bg-card/25 backdrop-blur-xs hover:bg-card/80 dark:hover:bg-card/50 hover:border-border hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-black/25 transition-all duration-200 group"
                 >
-                  <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-2">
-                    <h3 className="text-base font-medium text-foreground tracking-tight group-hover:underline underline-offset-4 decoration-muted-foreground">
+                  <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1.5 mb-2">
+                    <h3 className="text-base sm:text-lg font-semibold font-serif text-foreground tracking-tight group-hover:underline underline-offset-4 decoration-muted-foreground leading-snug">
                       <Link href={`/blog/${post.slug}`}>
                         {post.title}
                       </Link>

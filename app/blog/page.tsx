@@ -1,8 +1,10 @@
 import Link from "next/link"
+import Image from "next/image"
 import type { Metadata } from "next"
 import { getAllPosts, getAllTags } from "@/lib/blog"
 import { ThemeToggle } from "@/components/theme-toggle"
-import { ArrowLeft, Clock, Tag } from "lucide-react"
+import { BlogSearchFilter } from "@/components/blog/blog-search-filter"
+import { ArrowLeft, BookOpen } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "Writing",
@@ -14,15 +16,21 @@ export default async function BlogIndexPage() {
   const tags = await getAllTags()
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Minimal Top Header */}
+    <div className="min-h-screen bg-background relative overflow-x-hidden">
+      {/* Background Atmosphere & Ambient Lighting */}
+      <div className="absolute top-0 inset-x-0 h-[480px] pointer-events-none overflow-hidden -z-10 select-none">
+        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[760px] h-[380px] bg-gradient-to-b from-stone-400/20 via-stone-300/5 to-transparent dark:from-zinc-500/15 dark:via-zinc-800/5 dark:to-transparent blur-3xl rounded-full" />
+        <div className="absolute inset-0 bg-grid-pattern opacity-[0.35] dark:opacity-[0.2] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,black_70%,transparent_100%)]" />
+      </div>
+
+      {/* Top Header */}
       <header className="sticky top-0 z-40 backdrop-blur-md bg-background/80 border-b border-border/60">
         <div className="mx-auto max-w-3xl px-6 py-4 flex items-center justify-between">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors group"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" />
             <span>Home</span>
           </Link>
           <div className="flex items-center gap-3">
@@ -43,89 +51,48 @@ export default async function BlogIndexPage() {
         </div>
       </header>
 
+      {/* Main Editorial Container */}
       <main className="mx-auto max-w-3xl px-6 py-12 md:py-16">
-        {/* Intro */}
-        <div className="space-y-3 mb-10">
-          <h1 className="text-3xl font-semibold tracking-tight text-foreground">
+        {/* Elevated Editorial Header */}
+        <div className="space-y-4 mb-10 pb-8 border-b border-border/70">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-medium bg-accent-soft text-accent border border-accent/20 shadow-xs backdrop-blur-sm">
+            <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+            <BookOpen className="w-3.5 h-3.5 text-accent" />
+            <span>Essays & Systems Notes</span>
+          </div>
+
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold font-serif tracking-tight text-foreground leading-[1.15]">
             Writing
           </h1>
-          <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
-            Notes, benchmarks, and deep dives on distributed systems, systems programming, and software engineering.
+
+          <p className="text-muted-foreground text-base sm:text-lg leading-relaxed max-w-2xl text-pretty">
+            In-depth engineering essays, postmortems, and technical notes covering distributed systems,
+            low-latency architecture, concurrency primitives, and practical systems engineering.
           </p>
+
+          {/* Author Byline Strip */}
+          <div className="pt-2 flex flex-wrap items-center gap-3 text-xs font-mono text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <div className="relative w-5 h-5 rounded-full overflow-hidden border border-border shrink-0">
+                <Image
+                  src="/me.png"
+                  alt="Uttam Raj"
+                  width={20}
+                  height={20}
+                  className="object-cover"
+                />
+              </div>
+              <span className="text-foreground font-medium">Uttam Raj</span>
+            </div>
+            <span className="text-border">•</span>
+            <span>{posts.length} {posts.length === 1 ? "article published" : "articles published"}</span>
+            <span className="text-border">•</span>
+            <span>Systems & Backend</span>
+          </div>
         </div>
 
-        {/* Tags bar if any tags exist */}
-        {tags.length > 0 && (
-          <div className="flex flex-wrap items-center gap-1.5 mb-10 pb-6 border-b border-border/40">
-            <span className="text-xs text-muted-foreground mr-1.5 flex items-center gap-1">
-              <Tag className="w-3 h-3" /> Topics:
-            </span>
-            {tags.map((tag) => (
-              <span
-                key={tag}
-                className="text-xs px-2.5 py-0.5 rounded-full border border-border/60 bg-muted/50 text-muted-foreground"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
-
-        {/* Posts List */}
-        {posts.length === 0 ? (
-          <p className="text-muted-foreground text-sm py-12 text-center">
-            No published posts found. Create a markdown file in <code className="text-xs bg-muted px-1.5 py-0.5 rounded">content/posts/</code> to publish your first post.
-          </p>
-        ) : (
-          <div className="space-y-8">
-            {posts.map((post) => (
-              <article
-                key={post.slug}
-                className="group relative flex flex-col items-start p-5 -mx-5 rounded-lg transition-colors hover:bg-muted/40 border border-transparent hover:border-border/50"
-              >
-                <div className="flex items-center gap-3 text-xs text-muted-foreground font-mono mb-2">
-                  <time dateTime={post.date}>
-                    {new Date(post.date).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                    })}
-                  </time>
-                  <span>•</span>
-                  <span className="inline-flex items-center gap-1">
-                    <Clock className="w-3 h-3" />
-                    {post.readTime}
-                  </span>
-                </div>
-
-                <h2 className="text-lg sm:text-xl font-medium text-foreground tracking-tight group-hover:underline underline-offset-4 decoration-stone-400">
-                  <Link href={`/blog/${post.slug}`}>
-                    {post.title}
-                  </Link>
-                </h2>
-
-                {post.description && (
-                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                    {post.description}
-                  </p>
-                )}
-
-                {post.tags.length > 0 && (
-                  <div className="mt-3 flex flex-wrap gap-1.5">
-                    {post.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-[11px] font-mono px-2 py-0.5 rounded bg-muted text-muted-foreground border border-border/40"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </article>
-            ))}
-          </div>
-        )}
+        {/* Interactive Search, Topic Tag Filters & Vertically Stacked Editorial Entries */}
+        <BlogSearchFilter initialPosts={posts} tags={tags} />
       </main>
 
       <footer className="mx-auto max-w-3xl px-6 py-12 border-t border-border/40 text-center text-xs text-muted-foreground">
